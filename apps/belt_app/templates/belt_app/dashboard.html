@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Wish List: Dashboard</title>
+        {%load staticfiles %}
+        <link rel="stylesheet" href="{% static 'belt_app/css/style.css' %}" charset="utf-8">
+    </head>
+    <body>
+        <div id="wrapper">
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="error">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+            <br>
+            <h3>Hello {{user.name}}!</h3>
+            <p class="right"><a href="{% url 'logout' %}">Logout</a></p>
+            <p class="b">Your Wish List:</p>
+            <table class="center">
+                {% if my_wishes %}
+                <tr>
+                    <th>Item</th>
+                    <th>Added By</th> 
+                    <th>Date Added</th>
+                    <th>Action</th>
+                </tr>
+                {% else%}
+                <p>Your wish list is empty! Why not add something?</p>
+                {% endif %}
+                {% for wish in my_wishes %}
+                    <tr>
+                        <td><a href="{% url 'show_item' id=wish.0.wish_item.id%}">{{wish.0.wish_item.item_name}}</a></td>
+                        <td>{{wish.0.wish_item.creator.username}}</td> 
+                        <td>{{wish.1}}</td>
+                        <td>
+                            {% if wish.0.wish_item.creator == user %}
+                                <a href="{% url 'delete_item' id=wish.0.wish_item.id%}">Delete</a>
+                            {% else %}
+                                <a href="{% url 'remove_wish' id=wish.0.id%}">Remove from my Wishlist</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <p class="b">Other Users' Wish List:</p>
+            <table class="center">
+                {% if others_wishes %}
+                <tr>
+                    <th>Item</th>
+                    <th>Added By</th> 
+                    <th>Date Added</th>
+                    <th>Action</th>
+                </tr>
+                {% else%}
+                <p>Looks like nobody has added any wishes yet.</p>
+                {% endif %}
+                {% for wish in others_wishes %}
+                    <tr>
+                        <td><a href="{% url 'show_item' id=wish.0.wish_item.id%}">{{wish.0.wish_item.item_name}}</a></td>
+                        <td>{{wish.0.wish_item.creator.username}}</td> 
+                        <td>{{wish.1}}</td>
+                        <td><a href="{% url 'add_item' id=wish.0.wish_item.id %}">Add to my Wishlist</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <p class="right"><a href="{% url 'create_item' %}">Add Item</a></p>
+        </div>
+    </body>
+</html>

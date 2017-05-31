@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Wish List: Create Item</title>
+        {%load staticfiles %}
+        <link rel="stylesheet" href="{% static 'belt_app/css/style.css' %}" charset="utf-8">
+    </head>
+    <body>
+        <div id="wrapper">
+            <p class="right"><a href="{% url 'dashboard' %}">Home</a> <a href="{% url 'logout' %}">Logout</a></p>
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="error">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+            <br>
+            <h3>Create a New Wish List Item</h3>
+            <form action="{% url 'item_create_process' %}" method="post" class="form">
+            {% csrf_token %}
+                <label for="item">Item/Product:</label>
+                <input type="text" name="item"><br><br>
+                <input type="submit" value="Add">
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Wish List: Show Item</title>
+        {%load staticfiles %}
+        <link rel="stylesheet" href="{% static 'belt_app/css/style.css' %}" charset="utf-8">
+    </head>
+    <body>
+        <div id="wrapper">
+            <p class="right"><a href="{% url 'dashboard' %}">Home</a> <a href="{% url 'logout' %}">Logout</a></p>
+            <h3>{{item.item_name}}</h3>
+            <p>Users who added this product/item under their wish list:</p>
+            <ul>
+                {% for wish in wishes_with_this_item %}
+                    <li>{{wish.wish_user.username}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </body>
+</html>
