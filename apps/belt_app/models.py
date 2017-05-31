@@ -5,7 +5,7 @@ from django.db import models
 import re
 import bcrypt
 
-NAME_REGEX = re.compile(r'^[a-zA-Z]{3,50}$')
+NAME_REGEX = re.compile(r'^[a-zA-Z\s]{3,50}$')
 USERNAME_REGEX = re.compile(r'[a-zA-Z0-9.+_-]{3,50}')
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 PWD_REGEX = re.compile(r'^.{8,50}$')
@@ -29,7 +29,7 @@ class UserManager(models.Manager):
         error = []
         #input validations
         if not NAME_REGEX.match(name):
-            error.append('First name must be at least 3 characters.')
+            error.append('Name must be at least 3 characters.')
         if not USERNAME_REGEX.match(username):
             error.append('Username must be at least 3 characters.')
         if User.objects.filter(username=username):
